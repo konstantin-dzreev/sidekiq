@@ -1,3 +1,16 @@
+<script type="text/javascript">
+  function toggleDeleteQueueAction() {
+    var checkbox = $('input[name="deleteQueueCheckbox"]');
+    var buttons  = $('input[name="delete"]')
+
+    if (checkbox.is(":checked")) {
+      buttons.show();
+    } else {
+      buttons.hide();
+    }
+  }
+</script>
+
 <h3><%= t('Queues') %></h3>
 
 <div class="table_container">
@@ -5,7 +18,10 @@
     <thead>
       <th><%= t('Queue') %></th>
       <th><%= t('Size') %></th>
-      <th><%= t('Actions') %></th>
+      <th>
+        <input type="checkbox" name="deleteQueueCheckbox" value="yes" onclick="toggleDeleteQueueAction();">
+        <%= t('Actions') %>
+      </th>
     </thead>
     <% @queues.each do |queue| %>
       <tr>
@@ -19,10 +35,12 @@
         <td class="delete-confirm">
           <form action="<%=root_path %>queues/<%= CGI.escape(queue.name) %>" method="post">
             <%= csrf_tag %>
-            <input class="btn btn-danger btn-xs" type="submit" name="delete" value="<%= t('Delete') %>" data-confirm="<%= t('AreYouSureDeleteQueue', :queue => h(queue.name)) %>" />
+            <input style="display: none;" class="btn btn-danger btn-xs" type="submit" name="delete" value="<%= t('Delete') %>" data-confirm="<%= t('AreYouSureDeleteQueue', :queue => h(queue.name)) %>" />
           </form>
         </td>
       </tr>
     <% end %>
   </table>
 </div>
+
+
